@@ -1,0 +1,22 @@
+{
+    "name": "fr3ddy/easykeychange",
+    "description": "Easy Support for translation. Exporting Excels, change keys and import it after finishing.",
+    "license": "Apache",
+    "authors": [
+        {
+            "name": "Freddy",
+            "email": "info@frederik-frey.de"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {
+        "maatwebsite/excel": "2.1.*"
+    },
+    "autoload": {
+        "classmap": [
+            "src"
+        ],
+        "psr-4": {
+        }
+    }
+}
