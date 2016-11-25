@@ -41,7 +41,11 @@ class ImportCommand extends Command
     public function handle()
     {
         //Search all trans('') in routes / resources / public / app
-        $routes  = \File::allFiles(base_path().'/routes');
+        if(is_dir(base_path().'/routes')){
+            $routes  = \File::allFiles(base_path().'/routes');
+        }else{
+            $routes = array();
+        }
         $resources = \File::allFiles(base_path().'/resources');
         $public = \File::allFiles(base_path().'/public');
         $app = \File::allFiles(base_path().'/app');
