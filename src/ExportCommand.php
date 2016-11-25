@@ -91,9 +91,10 @@ class ExportCommand extends Command
 
             $excel->sheet('All Keys', function($sheet) {
                 $data = array();
-                $data[] = array('Old Key' , 'New Key');
+                $data[] = array('Old Key' , 'New Key' , 'Find Dublicates');
                 foreach($this->keys as $key){
-                    $data[] = array($key , $key);
+                    $without_langfile = explode('.',$key,1);
+                    $data[] = array($key , $key , $without_langfile[1]);
                 }
 
                 $sheet->rows($data);
