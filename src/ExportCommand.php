@@ -70,6 +70,7 @@ class ExportCommand extends Command
         $this->info("");
         $this->info("Starting with file creation");
         foreach($trans as $t){
+            $t = substr($t , strpos($t , 'trans('), strpos($t , ')'));
             $t2 = str_replace("trans('", "" , $t);
             $t3 = str_replace("')" , "", $t2);
             $t4 = str_replace('trans("', "" , $t3);
