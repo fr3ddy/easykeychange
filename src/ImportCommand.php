@@ -23,6 +23,7 @@ class ImportCommand extends Command
 
     private $paths;
     private $bar;
+    private $languages;
     /**
      * Create a new command instance.
      *
@@ -51,6 +52,8 @@ class ImportCommand extends Command
         $app = \File::allFiles(base_path().'/app');
         $this->paths = array_merge($routes , $resources , $public , $app);
 
+        $this->languages = \File::allFiles(base_path().'/resources/lang');
+
         Excel::load(storage_path('easykeychange').'/keys.xls' , function($reader){
             $sheet = $reader->first();
 
@@ -60,6 +63,7 @@ class ImportCommand extends Command
             $sheet->each(function($row){
                 $keys = $row->toArray();
 
+                //replace in files
                 foreach($this->paths as $path){
                     $file = file_get_contents($path);
                     if($file){
@@ -73,6 +77,15 @@ class ImportCommand extends Command
                             fclose($handle);
                         }
                     }
+                }
+
+                //replace in lang filesize
+                foreach($this->languages as $path){
+                    $split = explode('/' , $path);
+                    $file = $split[sizeof($split)-1];
+                    $split2 = explode('.');
+                    $name = $split2[0];
+                    
                 }
                 $this->bar->advance();
             });
