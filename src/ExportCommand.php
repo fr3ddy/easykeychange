@@ -61,9 +61,9 @@ class ExportCommand extends Command
         $trans = array();
         foreach($paths as $path){
             $file = file_get_contents($path);
-            preg_match("/trans\('.+'\)/" , $file , $keys);
+            preg_match("/trans\('.+\..+'\)/" , $file , $keys);
             $trans = array_merge($trans , $keys);
-            preg_match('/trans\(".+"\)/' , $file , $keys);
+            preg_match('/trans\(".+\..+"\)/' , $file , $keys);
             $trans = array_merge($trans , $keys);
             $bar->advance();
         }
