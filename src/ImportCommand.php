@@ -60,6 +60,8 @@ class ImportCommand extends Command
         $language_files = \File::allFiles(base_path().'/resources/lang');
         $this->new_files = array();
 
+        $this->info("Starting with Language loading");
+
         foreach($language_files as $path){
             $split = explode('\\' , $path);
             $file = $split[sizeof($split)-1];
@@ -106,6 +108,8 @@ class ImportCommand extends Command
         }
 
         $old_files = $this->new_files;
+
+        $this->info("Old Language loaded");
 
         Excel::load(storage_path('easykeychange').'/keys.xls' , function($reader){
             $reader->each(function($sheet){
