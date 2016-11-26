@@ -105,6 +105,8 @@ class ExportCommand extends Command
                     $data[] = array($key , $key , $without_langfile[1]);
                 }
 
+                $data = array_map("unserialize", array_unique(array_map("serialize", $data)));
+
                 $sheet->rows($data);
 
                 // Freeze first row
