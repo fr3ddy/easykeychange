@@ -71,7 +71,6 @@ class ImportCommand extends Command
             
             $split3 = explode('-',$file_name);
             if(!isset($split3[1])){
-                $this->info("Starting with ".$file_name);
                 App::setLocale($lang);
                 foreach(Lang::get($file_name) as $key1 => $value1){
                     if(is_array($value1)){
@@ -104,7 +103,6 @@ class ImportCommand extends Command
                         $this->new_files[$file_name][$key1][$lang] = $value1;
                     }
                 }
-                $this->info("Finished with ".$file_name);
             }
         }
 
@@ -116,7 +114,8 @@ class ImportCommand extends Command
             $reader->each(function($sheet){
 
                 $this->info('Started replacing in files...');
-                $this->bar = $this->output->createProgressBar(sizeof($this->paths)*count($this->new_files , COUNT_RECURSIVE));
+                $amount_of_rows = $sheet->rows()->count();
+                $this->bar = $this->output->createProgressBar($amount_of_rows);
                 
                 $sheet->each(function($row){
                     $keys = $row->toArray();
@@ -154,6 +153,8 @@ class ImportCommand extends Command
         });
 
         //write array for new language files
+        $this->info("Preparing Language files");
+        $bar2 = $this->output->createProgressBar(count($this->new_files));
         $new_files = array();
         foreach($this->new_files as $file => $rest){
             $this->info($file);
@@ -190,11 +191,13 @@ class ImportCommand extends Command
                     }
                 }
             }
+            $bar2->advance();
         }
 
         //create new lang files now
-        var_dump($new_files);
+        $this->info("Write new lang files");
         foreach($new_files as $lang => $rest){
+            $this->info("Starting with ".$lang);
             foreach($rest as $filename => $array){
                 $file = base_path().'/resources/lang/'.$lang.'/'.$filename.'.php';
                 if(file_exists($file)){
@@ -207,6 +210,7 @@ return '.$language_array.';';
 
                 file_put_contents($file,$file_content);
             }
+            $this->info("Done with ".$lang);
         }
 
         $this->info('Everything replaced!');
