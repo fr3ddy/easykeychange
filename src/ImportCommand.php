@@ -114,8 +114,8 @@ class ImportCommand extends Command
             $reader->each(function($sheet){
 
                 $this->info('Started replacing in files...');
-                $amount_of_rows = $sheet->rows()->count();
-                $this->bar = $this->output->createProgressBar($amount_of_rows);
+                $rows = $sheet->all();
+                $this->bar = $this->output->createProgressBar(count($rows));
                 
                 $sheet->each(function($row){
                     $keys = $row->toArray();
@@ -153,11 +153,11 @@ class ImportCommand extends Command
         });
 
         //write array for new language files
+        $this->info("");
         $this->info("Preparing Language files");
         $bar2 = $this->output->createProgressBar(count($this->new_files));
         $new_files = array();
         foreach($this->new_files as $file => $rest){
-            $this->info($file);
             if($old_files[$file] != $this->new_files[$file]){
                 foreach($rest as $key1 => $value1){
                     foreach($value1 as $key2 => $value2){
@@ -195,6 +195,7 @@ class ImportCommand extends Command
         }
 
         //create new lang files now
+        $this->info("");
         $this->info("Write new lang files");
         foreach($new_files as $lang => $rest){
             $this->info("Starting with ".$lang);
