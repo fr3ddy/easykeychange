@@ -61,13 +61,17 @@ class ExportCommand extends Command
         $trans = array();
         foreach($paths as $path){
             $file = file_get_contents($path);
-            preg_match_all("/trans\('.+\..+?'\)/" , $file , $keys);
+            preg_match_all("/trans\('.+?'\)/" , $file , $keys);
             foreach($keys as $key){
-                $trans[] = $key;
+                foreach($key as $val){
+                    $trans[] = $val;
+                }
             }
-            preg_match_all('/trans\(".+\..+?"\)/' , $file , $keys);
+            preg_match_all('/trans\(".+?"\)/' , $file , $keys);
             foreach($keys as $key){
-                $trans[] = $key;
+                foreach($key as $val){
+                    $trans[] = $val;
+                }
             }
             $bar->advance();
         }
@@ -97,7 +101,7 @@ class ExportCommand extends Command
                 $data = array();
                 $data[] = array('Old Key' , 'New Key' , 'Find Dublicates');
                 foreach($this->keys as $key){
-                    $without_langfile = explode('.',$key,1);
+                    $without_langfile = explode('.',$key,2);
                     $data[] = array($key , $key , $without_langfile[1]);
                 }
 
@@ -109,7 +113,7 @@ class ExportCommand extends Command
                 $sheet->setAutoSize(true);
 
                 //Format first row
-                $sheet->cells('A1:B1', function($cells) {
+                $sheet->cells('A1:C1', function($cells) {
 
                     $cells->setFontSize(14);
                     $cells->setFontWeight('bold');
