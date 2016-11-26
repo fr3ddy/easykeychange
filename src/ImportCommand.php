@@ -260,6 +260,7 @@ return '.$language_array.';';
             if($old_key_3 != null) $info .= '.'.$old_key_3;
             if($old_key_4 != null) $info .= '.'.$old_key_4;
             if($old_key_5 != null) $info .= '.'.$old_key_5;
+            $this->info("");
             $this->info($info);
         }
     }
