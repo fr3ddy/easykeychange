@@ -71,7 +71,7 @@ class ImportCommand extends Command
             
             $split3 = explode('-',$file_name);
             if(!isset($split3[1])){
-
+                $this->info("Starting with ".$file_name);
                 App::setLocale($lang);
                 foreach(Lang::get($file_name) as $key1 => $value1){
                     if(is_array($value1)){
