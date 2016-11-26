@@ -104,12 +104,13 @@ class ImportCommand extends Command
                         $this->new_files[$file_name][$key1][$lang] = $value1;
                     }
                 }
+                $this->info("Finished with ".$file_name);
             }
         }
 
         $old_files = $this->new_files;
 
-        $this->info("Old Language loaded");
+        $this->info("Old Language finished loading");
 
         Excel::load(storage_path('easykeychange').'/keys.xls' , function($reader){
             $reader->each(function($sheet){
